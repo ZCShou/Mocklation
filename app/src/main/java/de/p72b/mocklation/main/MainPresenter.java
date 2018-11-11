@@ -1,7 +1,6 @@
 package de.p72b.mocklation.main;
 
 import android.arch.persistence.room.Room;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -107,7 +106,7 @@ public class MainPresenter implements IMainPresenter {
     @Override
     public void onClick(int viewId) {
         switch (viewId) {
-            case R.id.fab:
+            case R.id.vFab:
                 if (!mSetting.isPrivacyStatementAccepted()) {
                     showPrivacyUpdateDialog();
                     return;

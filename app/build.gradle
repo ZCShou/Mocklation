@@ -115,6 +115,7 @@ dependencies {
     api "com.android.support:design:${supportLibVersion}"
     api "com.android.support:support-dynamic-animation:${supportLibVersion}"
     api "com.android.support:customtabs:${supportLibVersion}"
+    api "com.android.support.constraint:constraint-layout:${supportConstraintLayout}"
     api "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
     api "android.arch.persistence.room:rxjava2:$rootProject.roomVersion"
