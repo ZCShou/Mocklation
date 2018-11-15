@@ -113,7 +113,7 @@ public class MainPresenter implements IMainPresenter {
                 }
                 mActivity.startActivity(new Intent(mActivity, MapsActivity.class));
                 break;
-            case R.id.play_stop:
+            case R.id.vPlayStop:
                 onPlayStopClicked();
                 break;
             case R.id.pause:

@@ -35,6 +35,9 @@ import java.util.List;
 import de.p72b.mocklation.BuildConfig;
 import de.p72b.mocklation.R;
 import de.p72b.mocklation.imprint.ImprintActivity;
+import de.p72b.mocklation.main.mode.IAdapterListener;
+import de.p72b.mocklation.main.mode.LocationListAdapter;
+import de.p72b.mocklation.main.mode.SwipeAndTouchHelper;
 import de.p72b.mocklation.service.AppServices;
 import de.p72b.mocklation.service.analytics.IAnalyticsService;
 import de.p72b.mocklation.service.room.LocationItem;
@@ -256,7 +259,7 @@ private static final String TAG = MainActivity.class.getSimpleName();
         ItemTouchHelper touchHelper = new ItemTouchHelper(new SwipeAndTouchHelper(mAdapter));
         touchHelper.attachToRecyclerView(mRecyclerView);
 
-        mButtonPlayStop = findViewById(R.id.play_stop);
+        mButtonPlayStop = findViewById(R.id.vPlayStop);
         mButtonPlayStop.setOnClickListener(this);
 
         mButtonPausePlay = findViewById(R.id.pause);
@@ -306,9 +309,5 @@ private static final String TAG = MainActivity.class.getSimpleName();
             Logger.d(TAG, "onItemRemoved item: " + item.getCode());
             mPresenter.locationItemRemoved(item);
         }
-    }
-
-    public interface IAdapterListener extends View.OnClickListener {
-        void onItemRemoved(LocationItem item);
     }
 }
