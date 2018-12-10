@@ -28,6 +28,8 @@ import android.view.Window;
 import android.widget.EditText;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.data.Geometry;
+import com.google.maps.android.data.geojson.GeoJsonPoint;
 
 import java.util.List;
 
@@ -136,12 +138,13 @@ public class EditLocationItemDialog extends DialogFragment {
         mLatitudeLayoutName = mRootView.findViewById(R.id.input_layout_latitude);
         mLongitudeLayoutName = mRootView.findViewById(R.id.input_layout_longitude);
 
-        Object geometry = mLocationItem.getGeometry();
-        if ((geometry instanceof LatLng)) {
+        Geometry geometry = mLocationItem.getGeometry();
+        if (geometry instanceof GeoJsonPoint) {
             mLatitudeLayoutName.setVisibility(View.VISIBLE);
             mLongitudeLayoutName.setVisibility(View.VISIBLE);
-            mLatitude.setText(String.valueOf(((LatLng) geometry).latitude));
-            mLongitude.setText(String.valueOf(((LatLng) geometry).longitude));
+            final LatLng latLng = ((GeoJsonPoint) geometry).getCoordinates();
+            mLatitude.setText(String.valueOf(latLng.latitude));
+            mLongitude.setText(String.valueOf(latLng.longitude));
         }
         mDisplayedName.setText(mLocationItem.getDisplayedName());
 
@@ -237,10 +240,18 @@ public class EditLocationItemDialog extends DialogFragment {
     private void saveFormData() {
         // save the form data
         mLocationItem.setDisplayedName(mDisplayedName.getText().toString());
-        if (mLatitudeLayoutName.getVisibility() == View.VISIBLE) {
-            String geoJson = "{'type':'Feature','properties':{},'geometry':{'type':'Point','coordinates':[" + mLongitude.getText() + "," + mLatitude.getText() + "]}}";
-            mLocationItem.setGeoJson(geoJson);
+        if (mLatitudeLayoutName.getVisibility() != View.VISIBLE) {
+            return;
         }
+        final GeoJsonPoint geoJsonPoint = new GeoJsonPoint(
+                new LatLng(Double.parseDouble(mLatitude.getText().toString()),
+                        Double.parseDouble(mLongitude.getText().toString()))
+        );
+        final String geometry = AppUtil.geometryToString(geoJsonPoint);
+        if (geometry == null) {
+            return;
+        }
+        mLocationItem.setGeoJson(geometry);
     }
 
     private void writeItem() {
@@ -268,13 +279,13 @@ public class EditLocationItemDialog extends DialogFragment {
         float longitude;
         try {
             longitude = Float.valueOf(mLongitude.getText().toString());
-        } catch (NumberFormatException exception){
+        } catch (NumberFormatException exception) {
             mLongitude.setError(getString(R.string.error_1017));
             return false;
         }
         try {
             latitude = Float.valueOf(mLatitude.getText().toString());
-        } catch (NumberFormatException exception){
+        } catch (NumberFormatException exception) {
             mLatitude.setError(getString(R.string.error_1017));
             return false;
         }
