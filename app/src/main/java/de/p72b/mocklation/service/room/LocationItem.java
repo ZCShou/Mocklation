@@ -10,20 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.google.maps.android.data.Geometry;
-import com.google.maps.android.data.geojson.GeoJsonFeature;
-import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonParser;
-import com.google.maps.android.data.geojson.GeoJsonPoint;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import de.p72b.mocklation.service.location.LocationItemFeature;
 
 @Entity(tableName = "locations")
 public class LocationItem implements Parcelable {
@@ -120,22 +112,6 @@ public class LocationItem implements Parcelable {
 
     public void setIsFavorite(boolean isFavorite) {
         mIsFavorite = isFavorite;
-    }
-
-    public LocationItemFeature deserialize() throws JsonParseException {
-        final LocationItemFeature locationItemFeature = new Gson().fromJson(mGeoJson, LocationItemFeature.class);
-        try {
-            // The geoJSON parser is hidden inside GeoJsonLayer ^^
-            GeoJsonLayer layer = new GeoJsonLayer(null, new JSONObject(mGeoJson));
-            for (GeoJsonFeature feature : layer.getFeatures()) {
-                locationItemFeature.setGeoJsonFeature(feature);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return locationItemFeature;
     }
 
     @Nullable
