@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -21,13 +23,14 @@ import android.widget.ProgressBar;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.gson.Gson;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.geojson.GeoJsonPoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.p72b.locator.location.ILastLocationListener;
+import de.p72b.locator.location.LocationManager;
 import de.p72b.mocklation.R;
 import de.p72b.mocklation.dialog.EditLocationItemDialog;
 import de.p72b.mocklation.service.geocoder.Constants;
@@ -57,8 +60,9 @@ public class MapsPresenter implements IMapsPresenter {
     private Disposable mDisposableGetAll;
     private LatLng mAddressRequestedLatLng;
     private String mAddressResult;
+    private LocationManager mLocationManager;
 
-    MapsPresenter(FragmentActivity activity) {
+    MapsPresenter(FragmentActivity activity, @NonNull final LocationManager locationManager) {
         Logger.d(TAG, "new MapsPresenter");
         mActivity = activity;
         mView = (IMapsView) activity;
@@ -66,23 +70,13 @@ public class MapsPresenter implements IMapsPresenter {
         mAddressOutput = null;
         mResultReceiver = new AddressResultReceiver(new Handler());
         mDb = AppDatabase.getLocationsDb().build();
+        mLocationManager = locationManager;
 
         updateUIWidgets();
     }
 
     @Override
-    public void onStart() {
-        Logger.d(TAG, "onStart");
-    }
-
-    @Override
-    public void onStop() {
-        Logger.d(TAG, "onStop");
-    }
-
-    @Override
     public void onDestroy() {
-        Logger.d(TAG, "onDestroy");
         mDisposables.clear();
     }
 
@@ -113,13 +107,6 @@ public class MapsPresenter implements IMapsPresenter {
     }
 
     @Override
-    public void setLastKnownLocation(Location location) {
-        Logger.d(TAG, "setLastKnownLocation location:" + location.getProvider() + " "
-                + location.getLatitude() + " / " + location.getLongitude() + " isMocked: "
-                + location.isFromMockProvider());
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.save:
@@ -131,7 +118,42 @@ public class MapsPresenter implements IMapsPresenter {
                 showEditLocationItemDialog();
                 break;
             case R.id.location:
-                mView.showMyLocation(false);
+                mLocationManager.getLastLocation(new ILastLocationListener() {
+                    @Override
+                    public void onSuccess(@Nullable Location location) {
+                        if (location != null) {
+                            mView.showMyLocation(false, location);
+                        } else {
+                            mView.showSnackbar(R.string.error_1021, -1, null, Snackbar.LENGTH_LONG);
+                        }
+                    }
+
+                    @Override
+                    public void onError(int code, @Nullable String message) {
+                        switch(code) {
+                            case LocationManager.LOCATION_UPDATES_RETRY_LIMIT:
+                            case LocationManager.SETTINGS_NOT_FULFILLED:
+                            case LocationManager.FUSED_LOCATION_ERROR:
+                            case LocationManager.MISSING_PERMISSION:
+                            case LocationManager.CANCELED_PERMISSION_CHANGE:
+                            case LocationManager.CANCELED_SETTINGS_CHANGE:
+                                mView.showSnackbar(R.string.error_1021, -1, null, Snackbar.LENGTH_LONG);
+                                break;
+                            case LocationManager.MISSING_PERMISSION_DO_NOT_ASK_AGAIN:
+                                mView.showSnackbar(R.string.error_1022, R.string.action_settings, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        final Uri uri = Uri.fromParts("package", mActivity.getPackageName(), null);
+                                        final Intent intent = new Intent();
+                                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                        intent.setData(uri);
+                                        mActivity.startActivity(intent);
+                                    }
+                                }, Snackbar.LENGTH_LONG);
+                                break;
+                        }
+                    }
+                });
                 break;
             default:
                 // do nothing;
@@ -271,7 +293,7 @@ public class MapsPresenter implements IMapsPresenter {
 
     private class FetchAllLocationItemObserver implements Consumer<List<LocationItem>> {
         @Override
-        public void accept(List<LocationItem> locationItems) throws Exception {
+        public void accept(List<LocationItem> locationItems) {
             LatLngBounds bounds = AppUtil.getBounds(locationItems);
             mView.addMarkers(locationItems);
             if (bounds != null) {
@@ -279,13 +301,9 @@ public class MapsPresenter implements IMapsPresenter {
             } else if (locationItems.size() == 1) {
                 Geometry geometry = locationItems.get(0).getGeometry();
                 if (geometry instanceof GeoJsonPoint) {
-                    LatLng point = ((GeoJsonPoint) geometry).getCoordinates();
+                    final LatLng point = ((GeoJsonPoint) geometry).getCoordinates();
                     mView.showLocation(point, 8L, true);
-                } else {
-                    mView.tryToInitCameraPosition();
                 }
-            } else {
-                mView.tryToInitCameraPosition();
             }
             mDisposables.remove(mDisposableGetAll);
         }
