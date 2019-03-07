@@ -17,10 +17,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -178,10 +180,6 @@ public class MockLocationService extends Service {
         final String code = mSetting.getMockLocationItemCode();
         if (code == null) {
             return;
-        Logger.d(TAG, "code: " + code + " hasPermission: " + mPermissions.hasPermission(this));
-        if (mPermissions.hasPermission(this)
-        Logger.d(TAG, "code: " + code + " hasPermission: " + mPermissions.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION));
-        if (mPermissions.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         }
         mDisposableFindByCode = mDb.locationItemDao().findByCode(code)
                 .subscribeOn(Schedulers.io())
@@ -418,7 +416,7 @@ public class MockLocationService extends Service {
             final Location location = new Location(getBestFittingProvider());
             location.setLatitude(nextLatLng.latitude);
             location.setLongitude(nextLatLng.longitude);
-            location.setAccuracy(6);
+            location.setAccuracy(45);
             location.setTime(Calendar.getInstance().getTimeInMillis());
             location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
 

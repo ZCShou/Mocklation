@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.25.4'
+        classpath 'io.fabric.tools:gradle:1.26.1'
     }
 }
 apply plugin: 'com.android.application'
@@ -57,9 +57,9 @@ android {
         applicationId "de.p72b.mocklation"
         minSdkVersion appMinSdk
         targetSdkVersion 29
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [ fabricApiKey:fabricApiKey]
-        buildConfigField "String", "SUPPORT_LIB_VERSION", '"' + supportLibVersion + '"'
+        buildConfigField "String", "ANDROID_X_VERSION", '"1.1.0"'
         buildConfigField "String", "ROOM_VERSION", '"' + rootProject.roomVersion + '"'
         buildConfigField "String", "PLAY_SERVICES_VERSION", '"' + playServicesVersion + '"'
         buildConfigField "String", "MAP_UTILITIES_VERSION", '"' + mapsUtilsVersion + '"'
@@ -105,24 +105,24 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api "com.android.support:appcompat-v7:${supportLibVersion}"
-    api "com.android.support:cardview-v7:${supportLibVersion}"
-    api "com.android.support:design:${supportLibVersion}"
-    api "com.android.support:support-dynamic-animation:${supportLibVersion}"
-    api "com.android.support:customtabs:${supportLibVersion}"
-    api "com.android.support.constraint:constraint-layout:${supportConstraintLayout}"
-    api "android.arch.persistence.room:runtime:$rootProject.roomVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
-    api "android.arch.persistence.room:rxjava2:$rootProject.roomVersion"
+    api "androidx.appcompat:appcompat:1.1.0"
+    api "androidx.cardview:cardview:1.0.0"
+    api "com.google.android.material:material:1.1.0-alpha10"
+    api "androidx.dynamicanimation:dynamicanimation:1.1.0-alpha02"
+    api "androidx.browser:browser:1.2.0-alpha08"
+    api "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+    api "androidx.room:room-runtime:$rootProject.roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
+    api "androidx.room:room-rxjava2:$rootProject.roomVersion"
     api "com.google.android.gms:play-services-maps:${playServicesVersion}"
     api "com.google.android.gms:play-services-places:${playServicesVersion}"
     api "com.google.android.gms:play-services-location:${playServicesVersion}"
-    api "com.github.p72b:android-maps-utils:0.6.0"
-    api "com.github.p72b:locator-library:1.0.3"
+    api "com.github.p72b:android-maps-utils:0.6.3"
+    api "com.github.p72b:locator-library:1.4.0"
     api "com.google.code.gson:gson:${gsonVersion}"
     api "com.google.dagger:dagger:${daggerVersion}"
     api "com.google.firebase:firebase-core:${firebaseVersion}"
-    api 'com.google.firebase:firebase-config:16.1.2'
+    api 'com.google.firebase:firebase-config:19.0.2'
     annotationProcessor rootProject.ext.daggerCompiler
     api "io.reactivex.rxjava2:rxjava:${rxjavaVersion}"
     api "io.reactivex.rxjava2:rxandroid:${rxandroidVersion}"

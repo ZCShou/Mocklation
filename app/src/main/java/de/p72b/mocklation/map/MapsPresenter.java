@@ -9,13 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -23,12 +19,16 @@ import android.widget.ProgressBar;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.geojson.GeoJsonPoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import de.p72b.locator.location.ILastLocationListener;
 import de.p72b.locator.location.LocationManager;
 import de.p72b.mocklation.R;
@@ -131,15 +131,15 @@ public class MapsPresenter implements IMapsPresenter {
                     @Override
                     public void onError(int code, @Nullable String message) {
                         switch(code) {
-                            case LocationManager.LOCATION_UPDATES_RETRY_LIMIT:
-                            case LocationManager.SETTINGS_NOT_FULFILLED:
-                            case LocationManager.FUSED_LOCATION_ERROR:
-                            case LocationManager.MISSING_PERMISSION:
-                            case LocationManager.CANCELED_PERMISSION_CHANGE:
-                            case LocationManager.CANCELED_SETTINGS_CHANGE:
+                            case LocationManager.ERROR_LOCATION_UPDATES_RETRY_LIMIT:
+                            case LocationManager.ERROR_SETTINGS_NOT_FULFILLED:
+                            case LocationManager.ERROR_FUSED_LOCATION_ERROR:
+                            case LocationManager.ERROR_MISSING_PERMISSION:
+                            case LocationManager.ERROR_CANCELED_PERMISSION_CHANGE:
+                            case LocationManager.ERROR_CANCELED_SETTINGS_CHANGE:
                                 mView.showSnackbar(R.string.error_1021, -1, null, Snackbar.LENGTH_LONG);
                                 break;
-                            case LocationManager.MISSING_PERMISSION_DO_NOT_ASK_AGAIN:
+                            case LocationManager.ERROR_MISSING_PERMISSION_DO_NOT_ASK_AGAIN:
                                 mView.showSnackbar(R.string.error_1022, R.string.action_settings, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {

@@ -3,11 +3,12 @@ package de.p72b.mocklation.imprint;
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
+import androidx.core.content.ContextCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
@@ -95,18 +96,18 @@ public class ImprintActivity extends AppCompatActivity {
     private void setupDependencies() {
         List<DependencyItem> items = new ArrayList<>();
         items.add(new DependencyItem(
-                R.string.v7_appcompat_library,
-                R.string.v7_appcompat_library_link,
+                R.string.androidx_appcompat_library,
+                R.string.androidx_library_link,
                 String.format(getString(R.string.imprint_dependencies_version),
-                        BuildConfig.SUPPORT_LIB_VERSION),
+                        BuildConfig.ANDROID_X_VERSION),
                 String.format(getString(R.string.imprint_dependencies_license),
                         getString(R.string.apache_license)))
         );
         items.add(new DependencyItem(
-                R.string.v7_cardview_library,
-                R.string.v7_cardview_library_link,
+                R.string.androidx_cardview_library,
+                R.string.androidx_cardview_library_link,
                 String.format(getString(R.string.imprint_dependencies_version),
-                        BuildConfig.SUPPORT_LIB_VERSION),
+                        BuildConfig.ANDROID_X_VERSION),
                 String.format(getString(R.string.imprint_dependencies_license),
                         getString(R.string.apache_license)))
         );
@@ -114,23 +115,23 @@ public class ImprintActivity extends AppCompatActivity {
                 R.string.android_design_library,
                 R.string.android_design_library_link,
                 String.format(getString(R.string.imprint_dependencies_version),
-                        BuildConfig.SUPPORT_LIB_VERSION),
+                        BuildConfig.ANDROID_X_VERSION),
                 String.format(getString(R.string.imprint_dependencies_license),
                         getString(R.string.apache_license)))
         );
         items.add(new DependencyItem(
-                R.string.v7_support_dynamic_animation_library,
-                R.string.v7_support_dynamic_animation_library_link,
+                R.string.androidx_dynamic_animation_library,
+                R.string.androidx_dynamic_animation_library_link,
                 String.format(getString(R.string.imprint_dependencies_version),
-                        BuildConfig.SUPPORT_LIB_VERSION),
+                        BuildConfig.ANDROID_X_VERSION),
                 String.format(getString(R.string.imprint_dependencies_license),
                         getString(R.string.apache_license)))
         );
         items.add(new DependencyItem(
-                R.string.v7_support_custom_tabs_library,
-                R.string.v7_support_custom_tabs_library_link,
+                R.string.androidx_custom_tabs_library,
+                R.string.androidx_custom_tabs_library_link,
                 String.format(getString(R.string.imprint_dependencies_version),
-                        BuildConfig.SUPPORT_LIB_VERSION),
+                        BuildConfig.ANDROID_X_VERSION),
                 String.format(getString(R.string.imprint_dependencies_license),
                         getString(R.string.apache_license)))
         );
