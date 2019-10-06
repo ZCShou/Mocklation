@@ -1,11 +1,12 @@
 package de.p72b.mocklation.service.analytics;
 
-import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import de.p72b.mocklation.App;
 
 public class AnalyticsService implements IAnalyticsService {
 
@@ -22,12 +23,6 @@ public class AnalyticsService implements IAnalyticsService {
         }
     }
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
-    public AnalyticsService(Context context) {
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
-    }
-
     @Override
     public void trackEvent(@NonNull String name) {
         trackEvent(name, null);
@@ -38,6 +33,6 @@ public class AnalyticsService implements IAnalyticsService {
         if (bundle == null) {
             bundle = new Bundle();
         }
-        mFirebaseAnalytics.logEvent(name, bundle);
+        FirebaseAnalytics.getInstance(App.sInstance).logEvent(name, bundle);
     }
 }

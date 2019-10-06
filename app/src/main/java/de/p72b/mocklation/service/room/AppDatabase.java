@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.maps.android.data.Geometry;
-import com.google.maps.android.data.geojson.GeoJsonFeature;
-import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonParser;
 
 import org.json.JSONException;
@@ -17,10 +15,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import de.p72b.mocklation.dagger.MocklationApp;
+
+import de.p72b.mocklation.App;
 import de.p72b.mocklation.util.AppUtil;
 
-@Database(entities = {LocationItem.class}, version = 2)
+@Database(entities = {LocationItem.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME_LOCATIONS = "locations";
 
@@ -57,7 +56,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     @NonNull
     public static RoomDatabase.Builder<AppDatabase> getLocationsDb() {
-        return Room.databaseBuilder(MocklationApp.getInstance(), AppDatabase.class,
+        return Room.databaseBuilder(App.sInstance, AppDatabase.class,
                 AppDatabase.DB_NAME_LOCATIONS)
                 .addMigrations(MIGRATION_1_2);
     }
