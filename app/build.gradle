@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.26.1'
+        classpath 'io.fabric.tools:gradle:1.31.1'
     }
 }
 apply plugin: 'com.android.application'
@@ -57,16 +57,16 @@ android {
         applicationId "de.p72b.mocklation"
         minSdkVersion appMinSdk
         targetSdkVersion 29
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         manifestPlaceholders = [ fabricApiKey:fabricApiKey]
         buildConfigField "String", "ANDROID_X_VERSION", '"1.1.0"'
-        buildConfigField "String", "ROOM_VERSION", '"' + rootProject.roomVersion + '"'
-        buildConfigField "String", "PLAY_SERVICES_VERSION", '"' + playServicesVersion + '"'
-        buildConfigField "String", "MAP_UTILITIES_VERSION", '"' + mapsUtilsVersion + '"'
-        buildConfigField "String", "GSON_VERSION", '"' + gsonVersion + '"'
-        buildConfigField "String", "FIREBASE_VERSION", '"' + firebaseVersion + '"'
-        buildConfigField "String", "RX_JAVA_VERSION", '"' + rxjavaVersion + '"'
-        buildConfigField "String", "RX_ANDROID_VERSION", '"' + rxandroidVersion + '"'
+        buildConfigField "String", "ROOM_VERSION", '"XXX"'
+        buildConfigField "String", "PLAY_SERVICES_VERSION", '"XXX"'
+        buildConfigField "String", "MAP_UTILITIES_VERSION", '"XXX"'
+        buildConfigField "String", "GSON_VERSION", '"XXX"'
+        buildConfigField "String", "FIREBASE_VERSION", '"XXX"'
+        buildConfigField "String", "RX_JAVA_VERSION", '"XXX"'
+        buildConfigField "String", "RX_ANDROID_VERSION", '"XXX"'
     }
 
     buildTypes {
@@ -103,30 +103,30 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    api "androidx.appcompat:appcompat:1.1.0"
-    api "androidx.cardview:cardview:1.0.0"
-    api "com.google.android.material:material:1.1.0-beta01"
-    api "androidx.dynamicanimation:dynamicanimation:1.1.0-alpha02"
-    api "androidx.browser:browser:1.2.0-alpha08"
-    api "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
-    api "androidx.room:room-runtime:$rootProject.roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
-    api "androidx.room:room-rxjava2:$rootProject.roomVersion"
-    api "com.google.android.gms:play-services-maps:${playServicesVersion}"
-    api "com.google.android.gms:play-services-places:${playServicesVersion}"
-    api "com.google.android.gms:play-services-location:${playServicesVersion}"
-    api "com.github.p72b:android-maps-utils:0.6.3"
-    api "com.github.p72b:locator-library:1.4.0"
-    api "com.google.code.gson:gson:${gsonVersion}"
-    api "com.google.firebase:firebase-core:${firebaseVersion}"
-    api 'com.google.firebase:firebase-config:19.0.2'
-    api "io.reactivex.rxjava2:rxjava:${rxjavaVersion}"
-    api "io.reactivex.rxjava2:rxandroid:${rxandroidVersion}"
-    api('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha01'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha02'
+    implementation 'androidx.browser:browser:1.2.0-alpha09'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
+    implementation 'androidx.room:room-runtime:2.2.1'
+    annotationProcessor 'androidx.room:room-compiler:2.2.1'
+    implementation 'androidx.room:room-rxjava2:2.2.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.github.p72b:android-maps-utils:0.6.3'
+    implementation 'com.github.p72b:locator-library:1.4.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-config:19.0.3'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true
     }
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'ru.bullyboo.ecryption:encoder:1.0.3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'ru.bullyboo.ecryption:encoder:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'
