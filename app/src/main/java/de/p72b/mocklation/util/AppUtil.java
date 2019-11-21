@@ -39,7 +39,7 @@ import java.util.TimeZone;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import de.p72b.mocklation.R;
-import de.p72b.mocklation.service.room.LocationItem;
+import de.p72b.mocklation.revamp.room.LocationItem;
 
 public class AppUtil {
     private static final String COORDINATE_DECIMAL_FORMAT = "%.6f";

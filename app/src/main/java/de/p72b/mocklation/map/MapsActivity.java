@@ -51,7 +51,7 @@ import androidx.dynamicanimation.animation.SpringForce;
 import de.p72b.locator.location.ILocationUpdatesListener;
 import de.p72b.locator.location.LocationAwareAppCompatActivity;
 import de.p72b.mocklation.R;
-import de.p72b.mocklation.service.room.LocationItem;
+import de.p72b.mocklation.revamp.room.LocationItem;
 import de.p72b.mocklation.util.AppUtil;
 import de.p72b.mocklation.util.Logger;
 

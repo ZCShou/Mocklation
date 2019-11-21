@@ -9,6 +9,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -107,25 +108,32 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha02'
     implementation 'androidx.browser:browser:1.2.0-alpha09'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
-    implementation 'androidx.room:room-runtime:2.2.1'
-    annotationProcessor 'androidx.room:room-compiler:2.2.1'
-    implementation 'androidx.room:room-rxjava2:2.2.1'
+    implementation 'androidx.room:room-runtime:2.2.2'
+    annotationProcessor 'androidx.room:room-compiler:2.2.2'
+    implementation 'androidx.room:room-rxjava2:2.2.2'
+
+    implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.github.p72b:android-maps-utils:0.6.3'
-    implementation 'com.github.p72b:locator-library:1.4.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-config:19.0.3'
+
+    implementation 'com.github.p72b:android-maps-utils:0.6.3'
+    implementation 'com.github.p72b:locator-library:1.4.0'
+
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
