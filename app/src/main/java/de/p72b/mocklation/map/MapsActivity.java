@@ -247,8 +247,8 @@ public class MapsActivity extends LocationAwareAppCompatActivity implements IMap
         if (latLng == null) {
             return;
         }
-        if (!item.getDisplayedName().isEmpty()) {
-            mBottomSheetTitleText.setText(item.getDisplayedName());
+        if (!item.getTitle().isEmpty()) {
+            mBottomSheetTitleText.setText(item.getTitle());
         }
         mBottomSheetSubTitleText.setText(AppUtil.getFormattedCoordinates(latLng));
         mTstamp.setText(AppUtil.getFormattedTimeStamp(Calendar.getInstance()));
@@ -279,7 +279,7 @@ public class MapsActivity extends LocationAwareAppCompatActivity implements IMap
         mLocationMarker = mMap.addMarker(
                 new MarkerOptions()
                         .position(latLng)
-                        .icon(getColoredMarker(item.getDisplayedName(), item.getColor()))
+                        .icon(getColoredMarker(item.getTitle(), item.getColor()))
         );
         mLocationMarker.setTag(item);
         showBottomSheet(item);
@@ -337,7 +337,7 @@ public class MapsActivity extends LocationAwareAppCompatActivity implements IMap
             Marker marker = mMap.addMarker(
                     new MarkerOptions()
                             .position(latLng)
-                            .icon(getColoredMarker(item.getDisplayedName(), item.getColor()))
+                            .icon(getColoredMarker(item.getTitle(), item.getColor()))
             );
             marker.setTag(item);
         }

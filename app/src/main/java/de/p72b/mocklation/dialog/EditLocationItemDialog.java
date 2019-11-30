@@ -146,7 +146,7 @@ public class EditLocationItemDialog extends DialogFragment {
             mLatitude.setText(String.valueOf(latLng.latitude));
             mLongitude.setText(String.valueOf(latLng.longitude));
         }
-        mDisplayedName.setText(mLocationItem.getDisplayedName());
+        mDisplayedName.setText(mLocationItem.getTitle());
 
         mDisplayedName.addTextChangedListener(new SimpleTextWatcher(mDisplayedName));
         mLatitude.addTextChangedListener(new SimpleTextWatcher(mLatitude));
@@ -234,12 +234,12 @@ public class EditLocationItemDialog extends DialogFragment {
     private void saveItem() {
         checkDbConnection();
         saveFormData();
-        requestLocationItem(mLocationItem.getDisplayedName());
+        requestLocationItem(mLocationItem.getTitle());
     }
 
     private void saveFormData() {
         // save the form data
-        mLocationItem.setDisplayedName(mDisplayedName.getText().toString());
+        mLocationItem.setTitle(mDisplayedName.getText().toString());
         if (mLatitudeLayoutName.getVisibility() != View.VISIBLE) {
             return;
         }
@@ -251,7 +251,7 @@ public class EditLocationItemDialog extends DialogFragment {
         if (geometry == null) {
             return;
         }
-        mLocationItem.setGeoJson(geometry);
+        mLocationItem.setGeom(geometry);
     }
 
     private void writeItem() {
@@ -311,7 +311,7 @@ public class EditLocationItemDialog extends DialogFragment {
 
     private void requestLocationItem(String displayedName) {
         Logger.d(TAG, "requestLocationItem");
-        mDisposableFindByDisplayedName = mDb.locationItemDao().findByDisplayedName(displayedName)
+        mDisposableFindByDisplayedName = mDb.locationItemDao().findByTitle(displayedName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new LocationItemDisplayedNameObserver());
