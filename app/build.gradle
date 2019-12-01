@@ -107,6 +107,10 @@ android {
             resValue "string", "google_maps_api_key", googleMapsApiKeyStore
         }
     }
+
+    dataBinding {
+        enabled true
+    }
 }
 
 androidExtensions {
